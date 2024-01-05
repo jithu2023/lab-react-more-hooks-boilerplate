@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useRef } from 'react';
 
 const initialState = {
   items: [],
@@ -36,6 +36,7 @@ const reducer = (state, action) => {
 
 export default function ListBody() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const inputRef = useRef(null);
 
   const toggleContent = (index) => {
     dispatch({ type: 'TOGGLE_CONTENT', payload: index });
@@ -52,6 +53,10 @@ export default function ListBody() {
     }
   };
 
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
   return (
     <div>
       <input
@@ -59,23 +64,26 @@ export default function ListBody() {
         value={state.currentInput}
         onChange={(e) => storeInput(e)}
         onKeyDown={(e) => storeInput(e)}
+        ref={inputRef}
       />
       {state.showBox ? (
-        state.items.map((item, index) => (
-          <div key={index} className="box">
-            {item.hideContent ? (
-              <h2 className="text">The content is hidden</h2>
-            ) : (
-              <h2 className="text">{item.val}</h2>
-            )}
-            <button
-              className="toggle"
-              onClick={() => toggleContent(index)}
-            >
-              Toggle
-            </button>
-          </div>
-        ))
+        <>
+          {state.items.map((item, index) => (
+            <div key={index} className="box">
+              {item.hideContent ? (
+                <h2 className="text">The content is hidden</h2>
+              ) : (
+                <h2 className="text">{item.val}</h2>
+              )}
+              <button className="toggle" onClick={() => toggleContent(index)}>
+                Toggle
+              </button>
+            </div>
+          ))}
+          <button className="focus" onClick={focusInput}>
+            Focus Input
+          </button>
+        </>
       ) : (
         ''
       )}
