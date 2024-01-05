@@ -55,4 +55,16 @@ body {
 .toggle:hover {
   background-color: #2980b9;
 }
+.focus {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
+.focus:hover {
+  background-color: #45a049;
+}
